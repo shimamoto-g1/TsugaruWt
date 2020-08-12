@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.content_main.*
 //// 8/12 githubお試し2
 //// 8/12 お試し3
 //// 8/12 お試し4
+//// 8/12 お試し5
 
 class MainActivity : AppCompatActivity() {
 
