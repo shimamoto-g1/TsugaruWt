@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">TsugaruWt_4</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="task_text">やる事</string>
+    <string name="executeDay">実行日</string>
+    <string name="save_text">保存</string>
+    <string name="cancel_text">キャンセル</string>
+    <string name="delete_text">削除</string>
+    <string name="doukana_text">どうかな</string>
+    <string name="notice_taxt">1回限りのtaskは実行日の入力不要\ntaskの実行後、task削除を実行して下さい</string>
+    <string name="ttlWtText">重さ(トータル)Kg</string>
+    <string name="subWtText">重さ(サブ)Kg</string>
+    <string name="mainWtText">重さ(メイン)Kg</string>
+    <string name="calcBtnText">計算！</string>
+    <string name="msurDateText">計測日</string>
+    <string name="jibun">自分</string>
+    <string name="tsugaruText">ツガル</string>
+    <string name="tsugaru_text">ツガル(kg)</string>
+    <string name="keisokusya_text">自分(kg)</string>
+    <string name="omosaTani_text">_kg</string>
+    <string name="graph_text">グラフ</string>
+</resources>
