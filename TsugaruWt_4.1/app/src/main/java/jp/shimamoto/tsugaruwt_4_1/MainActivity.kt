@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.content_main.*
 //// 8/1 グラフ画面製作中
 
 //// 8/12 GitHubお試し
+//// 8/12 githubお試し2
 
 class MainActivity : AppCompatActivity() {
 
