@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import java.lang.IllegalStateException
 
 class AlertDialogFragment() : DialogFragment() {
     ////　TaskRecord２で追加したクラス、コード内容の確認要が多数あり　２？
@@ -46,7 +45,7 @@ class AlertDialogFragment() : DialogFragment() {
                     // 呼び出し元のActivityで定義されているonDialogNegativeClickが実行される　２
                     listener.onDialogNegativeClick(this)
                 }
-                //// .setIcon(R.mipmap.giichi_icon_1_round)    //// 後程アイコンを設定　！
+                .setIcon(R.mipmap.ic_launcher_foreground)
                 .setTitle("確認！")
 
             builder.create()
