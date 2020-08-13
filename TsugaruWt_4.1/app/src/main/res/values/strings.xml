@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TsugaruWt_4</string>
+    <string name="app_name">ツガルの重さ_4</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -27,5 +27,5 @@
     <string name="tsugaru_text">ツガル(kg)</string>
     <string name="keisokusya_text">自分(kg)</string>
     <string name="omosaTani_text">_kg</string>
-    <string name="graph_text">グラフ</string>
+    <string name="graph_text">グラフ(作成中)</string>
 </resources>

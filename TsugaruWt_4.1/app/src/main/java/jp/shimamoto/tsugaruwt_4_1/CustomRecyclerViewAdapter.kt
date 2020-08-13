@@ -44,7 +44,7 @@ class CustomRecyclerViewAdapter(realmResults: RealmResults<TsugaruWt>) : Recycle
 
         holder.msurYear?.text = "${tsugaruWt?.msur_y}"
 
-        holder.itemView.setBackgroundColor(if (position % 2 == 0) Color.MAGENTA else Color.WHITE)
+        holder.itemView.setBackgroundColor(if (position % 2 == 0) Color.parseColor("#F0E68C") else Color.WHITE)
 
         holder.itemView.setOnLongClickListener {
             val intent = Intent(it.context,EditActivity::class.java)

@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolbar)
+        toolbar.setLogo(R.mipmap.ic_launcher_foreground)
 
         /*
         setSupportActionBar(findViewById(R.id.toolbar))

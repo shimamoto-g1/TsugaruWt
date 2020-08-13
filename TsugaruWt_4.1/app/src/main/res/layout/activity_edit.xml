@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:text="@string/msurDateText"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,11 +20,12 @@
 
     <EditText
         android:id="@+id/editMsurDate"
-        android:layout_width="200dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:focusable="false"
         android:inputType="date"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="@+id/textView1"
         app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
@@ -32,7 +33,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/ttlWtText"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="@+id/editMsurDate"
@@ -40,7 +41,7 @@
 
     <EditText
         android:id="@+id/editTtlWt"
-        android:layout_width="200dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="numberDecimal"
@@ -52,7 +53,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/subWtText"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="@+id/editTtlWt"
@@ -60,7 +61,7 @@
 
     <EditText
         android:id="@+id/editSubWt"
-        android:layout_width="200dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="numberDecimal"
@@ -72,16 +73,17 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
         android:text="@string/mainWtText"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="@+id/editSubWt"
-        app:layout_constraintTop_toBottomOf="@+id/editSubWt" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView3" />
 
     <TextView
         android:id="@+id/calcMainWt"
-        android:layout_width="200dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:background="#F9C025"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="@+id/textView4"
@@ -91,11 +93,11 @@
         android:id="@+id/calcBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/calcBtnText"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="@+id/calcMainWt"
-        app:layout_constraintTop_toBottomOf="@+id/calcMainWt" />
+        app:layout_constraintStart_toStartOf="@+id/editSubWt"
+        app:layout_constraintTop_toBottomOf="@+id/editSubWt" />
 
     <Button
         android:id="@+id/saveBtn"
