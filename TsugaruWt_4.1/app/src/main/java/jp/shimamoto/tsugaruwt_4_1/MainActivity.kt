@@ -21,11 +21,8 @@ import kotlinx.android.synthetic.main.content_main.*
 
 //// 8/1 グラフ画面製作中
 
-//// 8/12 GitHubお試し
-//// 8/12 githubお試し2
-//// 8/12 お試し3
-//// 8/12 お試し4
-//// 8/12 お試し5
+
+//// 8/12 ノートからクローンを作って試してみた。
 
 class MainActivity : AppCompatActivity() {
 
