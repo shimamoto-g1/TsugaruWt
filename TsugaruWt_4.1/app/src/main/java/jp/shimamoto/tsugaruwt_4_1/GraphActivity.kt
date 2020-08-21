@@ -9,9 +9,12 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_graph.*
 
 open class GraphActivity : AppCompatActivity() {
+
+    private lateinit var realm: Realm   //// 8/21
 
     // スタイルとフォントファミリーの設定
     private var mTypeface = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL)
@@ -30,6 +33,8 @@ open class GraphActivity : AppCompatActivity() {
 
     // LineChart用のデータ作成
     private fun lineData(count: Int, range: Float):LineData {
+
+        realm = Realm.getDefaultInstance()    //// 8/21
 
         val values = mutableListOf<Entry>()
 /*
@@ -103,5 +108,10 @@ open class GraphActivity : AppCompatActivity() {
                 setDrawGridLines(true)
             }
         }
+    }
+
+    override fun onDestroy() {    //// 8/21
+        super.onDestroy()    //// 8/21
+        realm.close()    //// 8/21
     }
 }
