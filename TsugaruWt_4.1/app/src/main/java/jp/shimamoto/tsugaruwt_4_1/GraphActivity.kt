@@ -10,7 +10,10 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import io.realm.Realm
+import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_graph.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 open class GraphActivity : AppCompatActivity() {
 
@@ -44,11 +47,40 @@ open class GraphActivity : AppCompatActivity() {
             values.add(Entry(i.toFloat(), value))
         }
 */
+        
+/*
+        //// データ仮入れ  ////
         values.add(Entry(0.toFloat(), 55.25f))
         values.add(Entry(1.toFloat(), 70f))
         values.add(Entry(2.toFloat(), 60f))    ////
         values.add(Entry(3.toFloat(), 79f))
         values.add(Entry(4.toFloat(), 63f))
+        
+*/
+
+        //// 体重データの取り込みに挑戦　8/22 //// ！！
+        
+        val cal = Calendar.getInstance()
+        cal.time = Date()
+        val df = SimpleDateFormat("yyyyMMdd")
+
+        val pdate = df.format(cal.time).toString()
+        pdateDisp.text = pdate    //// pdateの確認の為表示
+        val dDate = realm.where<TsugaruWt>()
+            .equalTo("msurDate",pdate)
+            .findFirst()
+            .toString()
+
+        ddateDisp.text = dDate    //// dDateの確認の為表示
+
+        if (pdate == dDate) {
+            values.add(Entry(0.toFloat(),6.5f))
+        } else {
+            values.add(Entry(0.toFloat(),2.8f))
+        }
+
+
+
 
         // グラフのレイアウトの設定
         val yVals = LineDataSet(values, "テストデータ").apply {
