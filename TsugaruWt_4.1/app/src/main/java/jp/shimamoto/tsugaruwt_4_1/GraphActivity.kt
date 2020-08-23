@@ -10,7 +10,6 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import io.realm.Realm
-import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_graph.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -62,19 +61,22 @@ open class GraphActivity : AppCompatActivity() {
         
         val cal = Calendar.getInstance()
         cal.time = Date()
-        val df = SimpleDateFormat("yyyyMMdd")
+        val df = SimpleDateFormat("yyyy/MM/dd")
 
-        val pdate = df.format(cal.time).toString()
+        val pdate = df.format(cal.time).toString()    //// 今日の日付
         pdateDisp.text = pdate    //// pdateの確認の為表示
-        val dDate = realm.where<TsugaruWt>()
-            .equalTo("msurDate",pdate)
+
+        val dDate = realm.where(TsugaruWt::class.java)
+            .equalTo("msurDate",pdate)    //// 今日の日付でrealm内を検索
             .findFirst()
-            .toString()
 
-        ddateDisp.text = dDate    //// dDateの確認の為表示
+        val ddate = dDate?.msurDate.toString()
+        val ddateWt = dDate?.mWt.toString().toFloat()
+        ddateDisp.text = "${ddate},,,${ddateWt}"    //// dDateの確認の為表示
+        
 
-        if (pdate == dDate) {
-            values.add(Entry(0.toFloat(),6.5f))
+        if (pdate == ddate) {
+            values.add(Entry(0.toFloat(),ddateWt))
         } else {
             values.add(Entry(0.toFloat(),2.8f))
         }
