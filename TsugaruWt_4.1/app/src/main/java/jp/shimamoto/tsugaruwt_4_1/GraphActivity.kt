@@ -12,60 +12,76 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import io.realm.Realm
+import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_graph.*
+import java.text.SimpleDateFormat
+import java.util.*
+
+//// 8/25 グラフ表示される事を確認して、これからrealmResultsにトライ！！！
 
 open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
 
-    //Typefaceの設定、後ほど使用します。
+    private lateinit var realm: Realm ////8/25 ok
+
+
+    //Typefaceの設定、後ほど使用します。スタイルとフォントファミリーの設定
     private var mTypeface = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL)
 
+    //// データの個数
     private val chartDataCount = 20
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_graph)
 
+        //// グラフの設定
         setupLineChart()
+        //// データの設定
         lineChart.data = lineDataWithCount(chartDataCount, 100f)
-        
-        }
 
-    private fun setupLineChart(){
+    }
+
+    private fun setupLineChart() {
         lineChart.apply {
             setOnChartValueSelectedListener(this@GraphActivity)
             description.isEnabled = false
             setTouchEnabled(true)
             isDragEnabled = true
+            //// 拡大縮小可否
             isScaleXEnabled = true
             setPinchZoom(false)
             setDrawGridBackground(false)
 
-            //データラベルの表示
+            //// データラベルの表示 ここでは「ツガルの重さ」
             legend.apply {
                 form = Legend.LegendForm.LINE
                 typeface = mTypeface
                 textSize = 11f
-                textColor = Color.BLACK
+                textColor = Color.RED
                 verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
                 horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
                 orientation = Legend.LegendOrientation.HORIZONTAL
                 setDrawInside(false)
             }
 
-            //y軸右側の表示
-            axisRight.isEnabled = false
+            // y軸右側の表示
+            axisRight.isEnabled = true
 
-            //X軸表示
+            // X軸表示
             xAxis.apply {
                 typeface = mTypeface
-                setDrawLabels(false)
+                //// X軸の数字を表示
+                setDrawLabels(true)
+                //// 格子線を表示する
                 setDrawGridLines(true)
             }
 
-            //y軸左側の表示
+            // y軸左側の表示
             axisLeft.apply {
                 typeface = mTypeface
                 textColor = Color.BLACK
+                //// 格子線を表示する
                 setDrawGridLines(true)
             }
         }
@@ -80,22 +96,58 @@ open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
     }
 
     //    LineChart用のデータ作成
-    private fun lineDataWithCount(count: Int, range: Float):LineData {
+    private fun lineDataWithCount(count: Int, range: Float): LineData {
+
+        realm = Realm.getDefaultInstance() //// 8/25 ok
+
+
+        //// 日付のループ作成 8/26 ！！！！
+
+        var s: Float = 0.0f
+        //// var x = "2020/08/10"
+
+        //// 今日の日付を取得してyyyy/MM/ddにする
+        val cal = Calendar.getInstance()
+        cal.time = Date()
+        val df = SimpleDateFormat("yyyy/MM/dd")
+
+        //// ここまでok 8/26 ok
 
         val values = mutableListOf<Entry>()
+        for (i in 0..30) {
+            cal.add(Calendar.DATE, -1)
+            val x = df.format(cal.time)
 
-        for (i in 0 until count) {
-            val value = (Math.random() * (range)).toFloat()
-            values.add(Entry(i.toFloat(), value))
+            val rResults: RealmResults<TsugaruWt> = realm.where(TsugaruWt::class.java)
+                .equalTo("msurDate", x)
+                .findAll()
+
+            if (!rResults.isNullOrEmpty()) {
+
+                val v =
+                    rResults[0]!!.mWt.toFloat()     //// 8/25 rResults[1]の後ろの ”?.” を ”!!” に変更したらグラフに反映できる
+                values.add(Entry(i.toFloat(), v))
+                //// ddateDisp.text = rResults[0]?.mWt.toString()
+            } else {
+                val v = 1.0f
+                values.add(Entry(i.toFloat(), v))
+                //// s = 1f
+                //// ddateDisp.text = s.toString()
+            }
         }
-        // create a dataset and give it a type
-        val yVals = LineDataSet(values, "SampleLineData").apply {
-            axisDependency =  YAxis.AxisDependency.LEFT
+
+        //// グラフのレイアウトの設定 create a dataset and give it a type
+        val yVals = LineDataSet(values, "ツガルの重さ").apply {
+            axisDependency = YAxis.AxisDependency.LEFT
             color = Color.BLACK
-            highLightColor = Color.YELLOW
-            setDrawCircles(false)
-            setDrawCircleHole(false)
-            setDrawValues(false)
+            //// タップ時のハイライトカラー
+            highLightColor = Color.BLUE
+            //// グラフの値に点を表示
+            setDrawCircles(true)
+            setDrawCircleHole(true)
+            //// 点の値非表示
+            setDrawValues(true)
+            //// 線の太さ
             lineWidth = 2f
         }
         val data = LineData(yVals)
@@ -103,6 +155,15 @@ open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
         data.setValueTextSize(9f)
         return data
     }
+
+    override fun onDestroy() {    //// 8/21
+        super.onDestroy()    //// 8/21
+        realm.close()    //// 8/21
+    }
+
+}
+
+
     /*
 
     private lateinit var realm: Realm   //// 8/21
@@ -275,11 +336,6 @@ open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
             }
         }
     }
-
-    override fun onDestroy() {    //// 8/21
-        super.onDestroy()    //// 8/21
-        realm.close()    //// 8/21
-    }
+}
 
      */
-}
