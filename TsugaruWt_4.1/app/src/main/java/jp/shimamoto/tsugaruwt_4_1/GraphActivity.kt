@@ -46,7 +46,7 @@ open class GraphActivity : AppCompatActivity() {
             values.add(Entry(i.toFloat(), value))
         }
 */
-        
+
 /*
         //// データ仮入れ  ////
         values.add(Entry(0.toFloat(), 55.25f))
@@ -57,8 +57,51 @@ open class GraphActivity : AppCompatActivity() {
         
 */
 
+        //// 体重データでグラフ作りに挑戦　8/23 //// ！！
+
+        val cal = Calendar.getInstance()
+        cal.time = Date()
+        val df = SimpleDateFormat("yyyy/MM/dd")
+
+        val pdate = df.format(cal.time)    //// 今日の日付
+        pdateDisp.text = pdate.toString()    //// pdateの確認の為表示
+
+         val i = 8    //// for (i in 0..5) {
+             cal.add(Calendar.DATE, -i)
+             val keisanDate = df.format(cal.time)
+
+
+
+
+        val dDate = realm.where(TsugaruWt::class.java)
+                 .equalTo("msurDate", keisanDate)    //// 今日の日付でrealm内を検索  ==>pdateが文字列のままでは-1が出来ない
+                 .findFirst()
+
+
+             val ddate = dDate?.msurDate.toString()
+             val ddateWt = dDate?.mWt.toString().toFloat()
+             ddateDisp.text = "${ddate},,,${ddateWt}"    //// dDateの確認の為表示
+
+/*
+             if (pdate == ddate) {
+                 values.add(Entry(0.toFloat(), ddateWt))
+             } else {
+                 values.add(Entry(0.toFloat(), 2.8f))
+             }
+
+ */
+        //// データ仮入れ  ////
+        values.add(Entry(0.toFloat(), 55.25f))
+        values.add(Entry(1.toFloat(), 70f))
+        values.add(Entry(2.toFloat(), 60f))    ////
+        values.add(Entry(3.toFloat(), 79f))
+        values.add(Entry(4.toFloat(), 63f))
+
+        //// }
+/*
+
         //// 体重データの取り込みに挑戦　8/22 //// ！！
-        
+
         val cal = Calendar.getInstance()
         cal.time = Date()
         val df = SimpleDateFormat("yyyy/MM/dd")
@@ -73,7 +116,7 @@ open class GraphActivity : AppCompatActivity() {
         val ddate = dDate?.msurDate.toString()
         val ddateWt = dDate?.mWt.toString().toFloat()
         ddateDisp.text = "${ddate},,,${ddateWt}"    //// dDateの確認の為表示
-        
+
 
         if (pdate == ddate) {
             values.add(Entry(0.toFloat(),ddateWt))
@@ -82,7 +125,7 @@ open class GraphActivity : AppCompatActivity() {
         }
 
 
-
+ */
 
         // グラフのレイアウトの設定
         val yVals = LineDataSet(values, "テストデータ").apply {
