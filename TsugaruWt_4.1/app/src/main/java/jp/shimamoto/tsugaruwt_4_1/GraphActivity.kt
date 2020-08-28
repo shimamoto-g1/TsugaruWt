@@ -38,6 +38,7 @@ open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
         setupLineChart()
         //// データの設定
         lineChart.data = lineDataWithCount()
+        lineChart2.data = lineDataWithCount2()
     }
 
     private fun setupLineChart() {
@@ -84,7 +85,58 @@ open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
                 //// 格子線を表示する
                 setDrawGridLines(true)
             }
+
         }
+
+        //////////////  ここから　グラフその２の為に　その２  ////////////////
+            lineChart2.apply {
+                setOnChartValueSelectedListener(this@GraphActivity)
+                description.isEnabled = false
+                setTouchEnabled(true)
+                isDragEnabled = true
+                //// 拡大縮小可否
+                isScaleXEnabled = true
+                setPinchZoom(false)
+                setDrawGridBackground(false)
+
+
+                //// データラベルの表示 ここでは「ツガルの重さ」
+                legend.apply {
+                    form = Legend.LegendForm.LINE
+                    typeface = mTypeface
+                    textSize = 20f
+                    textColor = Color.BLUE    
+                    verticalAlignment = Legend.LegendVerticalAlignment.TOP
+                    horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
+                    orientation = Legend.LegendOrientation.HORIZONTAL
+                    setDrawInside(false)
+                }
+
+                // y軸右側の表示
+                axisRight.isEnabled = true
+
+
+                // X軸表示
+                xAxis.apply {
+                    typeface = mTypeface
+                    //// X軸の数字を表示
+                    setDrawLabels(false)
+                    //// 格子線を表示する
+                    setDrawGridLines(true)
+                }
+
+                // y軸左側の表示
+                axisLeft.apply {
+                    typeface = mTypeface
+                    textColor = Color.BLACK
+                    //// 格子線を表示する
+                    setDrawGridLines(true)
+                }
+
+            }
+        //////////////  ここまで　グラフその２の為に　その２  ////////////////
+
+
     }
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
@@ -151,11 +203,73 @@ open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
         return data
     }
 
+    //////////////////////  ここから　グラフその２  /////////////////////////
+
+    //    LineChart用のデータ作成
+    private fun lineDataWithCount2(): LineData {
+
+        realm = Realm.getDefaultInstance()
+
+        //// 今日の日付を取得してyyyy/MM/ddにする
+        val cal = Calendar.getInstance()
+        cal.time = Date()
+        val df = SimpleDateFormat("yyyy/MM/dd")
+
+        val pdate = df.format(cal.time)    //// 今日の日付
+        pdateDisp.text = pdate.toString()    //// pdateの確認の為表示
+
+        val values = mutableListOf<Entry>()
+
+        cal.add(Calendar.DATE, -30)    //// グラフ反転にtry 8/26
+
+        for (i in 0..30) {
+            val a = df.format(cal.time)
+
+            val rResults: RealmResults<TsugaruWt> = realm.where(TsugaruWt::class.java)
+                .equalTo("msurDate", a)
+                .findAll()
+
+            cal.add(Calendar.DATE, +1)    //// グラフ反転にtry 8/26
+
+            if (!rResults.isNullOrEmpty()) {
+                val b = rResults[0]!!.sWt.toFloat()     //// 8/25 rResults[1]の後ろの ”?.” を ”!!” に変更したらグラフに反映できる
+                values.add(Entry(i.toFloat(), b))
+
+            } else {
+                val b = 84.0f
+                values.add(Entry(i.toFloat(), b))
+            }
+        }
+
+        //// グラフのレイアウトの設定 create a dataset and give it a type
+        val yVals2 = LineDataSet(values, "測った人の重さ_30日間").apply {
+            axisDependency = YAxis.AxisDependency.LEFT
+            color = Color.BLUE
+            //// タップ時のハイライトカラー
+            highLightColor = Color.BLUE
+            //// グラフの値に点を表示
+            setDrawCircles(true)
+            setDrawCircleHole(true)
+            //// 点の値非表示
+            setDrawValues(true)
+            //// 線の太さ
+            lineWidth = 2f
+        }
+        val data = LineData(yVals2)
+        data.setValueTextColor(Color.BLACK)
+        data.setValueTextSize(9f)
+        return data
+    }
+
+    //////////////////////  ここまで　グラフその２  /////////////////////////
+
+
     override fun onDestroy() {    //// 8/21
         super.onDestroy()    //// 8/21
         realm.close()    //// 8/21
     }
 }
+
 
 /*
     //// X軸表示に日付を使えるようになったらの為に置いておく    8/28  ////
