@@ -24,7 +24,6 @@ open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
 
     private lateinit var realm: Realm ////8/25 ok
 
-
     //Typefaceの設定、後ほど使用します。スタイルとフォントファミリーの設定
     private var mTypeface = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL)
 
@@ -38,8 +37,7 @@ open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
         //// グラフの設定
         setupLineChart()
         //// データの設定
-        lineChart.data = lineDataWithCount(chartDataCount, 100f)
-
+        lineChart.data = lineDataWithCount()
     }
 
     private fun setupLineChart() {
@@ -53,13 +51,14 @@ open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
             setPinchZoom(false)
             setDrawGridBackground(false)
 
+
             //// データラベルの表示 ここでは「ツガルの重さ」
             legend.apply {
                 form = Legend.LegendForm.LINE
                 typeface = mTypeface
-                textSize = 11f
+                textSize = 20f
                 textColor = Color.RED
-                verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+                verticalAlignment = Legend.LegendVerticalAlignment.TOP
                 horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
                 orientation = Legend.LegendOrientation.HORIZONTAL
                 setDrawInside(false)
@@ -68,11 +67,12 @@ open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
             // y軸右側の表示
             axisRight.isEnabled = true
 
+
             // X軸表示
             xAxis.apply {
                 typeface = mTypeface
                 //// X軸の数字を表示
-                setDrawLabels(true)
+                setDrawLabels(false)
                 //// 格子線を表示する
                 setDrawGridLines(true)
             }
@@ -96,50 +96,45 @@ open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
     }
 
     //    LineChart用のデータ作成
-    private fun lineDataWithCount(count: Int, range: Float): LineData {
+    private fun lineDataWithCount(): LineData {
 
-        realm = Realm.getDefaultInstance() //// 8/25 ok
-
-
-        //// 日付のループ作成 8/26 ！！！！
-
-        var s: Float = 0.0f
-        //// var x = "2020/08/10"
+        realm = Realm.getDefaultInstance()
 
         //// 今日の日付を取得してyyyy/MM/ddにする
         val cal = Calendar.getInstance()
         cal.time = Date()
         val df = SimpleDateFormat("yyyy/MM/dd")
 
-        //// ここまでok 8/26 ok
+        val pdate = df.format(cal.time)    //// 今日の日付
+        pdateDisp.text = pdate.toString()    //// pdateの確認の為表示
 
         val values = mutableListOf<Entry>()
+
+        cal.add(Calendar.DATE, -30)    //// グラフ反転にtry 8/26
+
         for (i in 0..30) {
-            cal.add(Calendar.DATE, -1)
             val x = df.format(cal.time)
 
             val rResults: RealmResults<TsugaruWt> = realm.where(TsugaruWt::class.java)
                 .equalTo("msurDate", x)
                 .findAll()
 
-            if (!rResults.isNullOrEmpty()) {
+            cal.add(Calendar.DATE, +1)    //// グラフ反転にtry 8/26
 
-                val v =
-                    rResults[0]!!.mWt.toFloat()     //// 8/25 rResults[1]の後ろの ”?.” を ”!!” に変更したらグラフに反映できる
+            if (!rResults.isNullOrEmpty()) {
+                val v = rResults[0]!!.mWt.toFloat()     //// 8/25 rResults[1]の後ろの ”?.” を ”!!” に変更したらグラフに反映できる
                 values.add(Entry(i.toFloat(), v))
-                //// ddateDisp.text = rResults[0]?.mWt.toString()
+
             } else {
-                val v = 1.0f
+                val v = 3.0f
                 values.add(Entry(i.toFloat(), v))
-                //// s = 1f
-                //// ddateDisp.text = s.toString()
             }
         }
 
         //// グラフのレイアウトの設定 create a dataset and give it a type
-        val yVals = LineDataSet(values, "ツガルの重さ").apply {
+        val yVals = LineDataSet(values, "ツガルの重さ_30日間").apply {
             axisDependency = YAxis.AxisDependency.LEFT
-            color = Color.BLACK
+            color = Color.RED
             //// タップ時のハイライトカラー
             highLightColor = Color.BLUE
             //// グラフの値に点を表示
@@ -160,8 +155,18 @@ open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
         super.onDestroy()    //// 8/21
         realm.close()    //// 8/21
     }
-
 }
+
+/*
+    //// X軸表示に日付を使えるようになったらの為に置いておく    8/28  ////
+        var labels = arrayOf("", "1日", "2日", "3日", "4日"
+            , "5日", "6日", "7日", "8日", "9日", "10日"
+            , "11日", "12日", "13日", "14日", "15日", "16日"
+            , "17日", "18日", "19日", "20日", "21日", "22日"
+            , "23日", "24日", "25日", "26日", "27日", "28日"
+            , "29日", "30日", "31日")
+
+ */
 
 
     /*
@@ -204,7 +209,7 @@ open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
         values.add(Entry(2.toFloat(), 60f))    ////
         values.add(Entry(3.toFloat(), 79f))
         values.add(Entry(4.toFloat(), 63f))
-        
+
 */
 
         //// 体重データでグラフ作りに挑戦　8/23 //// ！！
