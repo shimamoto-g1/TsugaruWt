@@ -25,7 +25,10 @@
     <string name="jibun">自分</string>
     <string name="tsugaruText">ツガル</string>
     <string name="tsugaru_text">ツガル(kg)</string>
-    <string name="keisokusya_text">自分(kg)</string>
+    <string name="keisokusya_text">測った人(kg)</string>
     <string name="omosaTani_text">_kg</string>
     <string name="graph_text">グラフ(作成中)</string>
+    <string name="info_graph_1">入力が無い日は3.0 グラフ右が最新</string>
+    <string name="info_graph_2">入力が無い日は80.0 グラフ右が最新</string>
+    <string name="infoGraphAll">グラフの数値は四捨五入される場合があります</string>
 </resources>

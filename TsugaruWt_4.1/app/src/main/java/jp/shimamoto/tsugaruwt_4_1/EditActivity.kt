@@ -8,15 +8,15 @@ import io.realm.Realm
  */
 
 import android.app.DatePickerDialog
-import androidx.appcompat.app.AppCompatActivity    ////     エラーの時にあったもの　！
-import android.os.Bundle    ////     エラーの時にあったもの　！
+import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.RelativeSizeSpan
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
-import io.realm.Realm    ////     エラーの時にあったもの　！
+import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_edit.*
@@ -99,7 +99,7 @@ class EditActivity : AppCompatActivity(),AlertDialogFragment.NoticeDialogListene
                 if (!editSubWt.text.isNullOrEmpty()) {
                     sWt = editSubWt.text.toString().toDouble()
                     mWt = tWt - sWt                                 //// main wt の計算
-                    Toast.makeText(applicationContext,"計算成功！",Toast.LENGTH_SHORT).show()     //// 途中確認
+                    // Toast.makeText(applicationContext,"計算成功！",Toast.LENGTH_SHORT).show()     //// 途中確認用
                     calcMainWt.text = String.format("%.02f",mWt)
 
                 } else {

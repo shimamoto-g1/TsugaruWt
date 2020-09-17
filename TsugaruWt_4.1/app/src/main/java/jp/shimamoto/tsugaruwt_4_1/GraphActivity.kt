@@ -36,6 +36,8 @@ open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
 
         //// グラフの設定
         setupLineChart()
+
+
         //// データの設定
         lineChart.data = lineDataWithCount()
         lineChart2.data = lineDataWithCount2()
@@ -88,6 +90,8 @@ open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
 
         }
 
+
+
         //////////////  ここから　グラフその２の為に　その２  ////////////////
             lineChart2.apply {
                 setOnChartValueSelectedListener(this@GraphActivity)
@@ -105,7 +109,7 @@ open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
                     form = Legend.LegendForm.LINE
                     typeface = mTypeface
                     textSize = 20f
-                    textColor = Color.BLUE    
+                    textColor = Color.BLUE
                     verticalAlignment = Legend.LegendVerticalAlignment.TOP
                     horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
                     orientation = Legend.LegendOrientation.HORIZONTAL
