@@ -178,7 +178,8 @@ open class GraphActivity : AppCompatActivity() , OnChartValueSelectedListener {
             cal.add(Calendar.DATE, +1)    //// グラフ反転にtry 8/26
 
             if (!rResults.isNullOrEmpty()) {
-                val v = rResults[0]!!.mWt.toFloat()     //// 8/25 rResults[1]の後ろの ”?.” を ”!!” に変更したらグラフに反映できる
+                val v = rResults[0]!!.mWt.toFloat()     //// 8/25 rResults[1]の後ろの ”?.” を ”!!” に変更したらグラフに反映できた
+                                                        //// 11/26 もしかしたら、toString().toFlort()で解決かも　！
                 values.add(Entry(i.toFloat(), v))
 
             } else {
